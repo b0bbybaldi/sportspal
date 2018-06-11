@@ -1,7 +1,8 @@
+var hash = require('./helper.js');
+
 function Login () {
 
-	this.root = $("<div>");
-
+	this.root = $("<div>").addClass("col-sm-8 offset-sm-2");
 
 	this.init = function () {
 		$("#container").append(this.root);
