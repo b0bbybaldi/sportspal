@@ -1,3 +1,5 @@
+var hash = require('./helper.js');
+
 function Register () {
 
 	this.root = $("<div>");
