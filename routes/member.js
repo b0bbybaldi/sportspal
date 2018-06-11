@@ -1,6 +1,4 @@
-var memberTable = require('../models/member.js');
-var gameTable = require('../models/game.js');
-var userTable = require('../models/user.js');
+var db = require('../models');
 
 function Member (app) {
 	
