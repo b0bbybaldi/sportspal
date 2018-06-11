@@ -1,4 +1,4 @@
-var userTable = require('../models/user.js');
+var db = require('../models');
 
 function User (app) {
 	
