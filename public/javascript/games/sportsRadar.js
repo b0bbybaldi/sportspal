@@ -1,5 +1,5 @@
 
-var queryURL = 'https://api.sportradar.us/soccer-xt3/eu/en/schedules/live/results.xml?api_key={t9g7njm2rkgu3wg538vppgv2}';
+var queryURL = 'https://api.sportradar.us/soccer-t3/intl/en/schedules/live/results.json?api_key=t9g7njm2rkgu3wg538vppgv2';
 
 $.ajax({
     url: queryURL,
@@ -9,8 +9,8 @@ $.ajax({
     var data = JSON.parse(this.response);
 
     if (request.status >= 200 && request.status < 400) {
-      data.forEach(response => {
-        console.log(response);
+      data.forEach(here => {
+        console.log(here);
       });
     } else {
       console.log('error');
