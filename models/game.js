@@ -1,3 +1,4 @@
+const db = require('./models');
 module.exports = function (sequelize, DataTypes) {
     var Game = sequelize.define("Game", {
         id: {
@@ -33,14 +34,8 @@ module.exports = function (sequelize, DataTypes) {
         },
         timestamps: true
     });
-    Game.associate = (models) => {
-        Game.hasMany(models.User, {//retrieves one game with all its members
-           foreignKey: {
-               allowNull: false
-            }
-        });
-    
-    };
+
+    Game.hasMany(db.GameUser);
 
 
     return Game;

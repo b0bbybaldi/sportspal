@@ -23,20 +23,8 @@ module.exports = function (sequelize, DataTypes) {
             len: [2, 10]
         }
     });
-    User.associate = function (models) {
-        // We're saying that a User should belong to an Game
-        // A User can't be created without an Game due to the foreign key constraint
 
-        User.belongsTo(models.Game, {//retrieves one game 
-            foreignKey: {
-                allowNull: false
-            }
-        });
-        User.hasMany(models.Game, {
-            through: { 
-                model: models.GameUser 
-            }
-        });
-    };
+    User.hasMany(db.GameUser);
+
     return User;
 };
