@@ -33,5 +33,20 @@ module.exports = function (sequelize, DataTypes) {
         },
         timestamps: true
     });
+    Game.associate = (models) =>{
+        Game.belongsToMany(models.User, {
+          through: {model: models.GameUser}
+        })
+      }
+        // Game.associate = function(models) {
+      //   // Associating Game with Users
+      //   // When an Game is deleted, also delete any associated Users
+      //   Game.hasMany(models.User, {
+      //     onDelete: "cascade"
+      //   });
+      // };
+    
+
     return Game;
 };
+//(`many to many` or `one to many`)
