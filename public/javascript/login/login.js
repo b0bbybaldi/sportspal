@@ -13,4 +13,9 @@ function Login () {
 		if (this.root.css('display') === 'none') this.root.css('display', 'block');
 		else this.root.css('display', 'none');
 	}
+
+	this.anything = function(){
+		
+		if (this.root.css('display') === 'none') this.root.css('display', 'block');
+	}
 }
