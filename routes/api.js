@@ -1,6 +1,6 @@
 var db = require('../models');
 
-function Game (app) {
+function Api (app) {
 
     // Create a user
     app.post('/api/users', function (req, res) {
@@ -29,11 +29,8 @@ function Game (app) {
 
     // Retrieve game via query
     app.get('/api/games', function (req, res) {
-        let id = Number(req.params.id) || 0;
         db.Game.findAll({
-            where: {
-                req.query
-            }
+            where: req.query
         }).then( function (results){
             res.json(results);
         });
@@ -77,4 +74,4 @@ function Game (app) {
 
 }
 
-module.exports = Game;
+module.exports = Api;

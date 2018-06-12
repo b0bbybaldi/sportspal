@@ -1,4 +1,3 @@
-const db = require('./models');
 module.exports = function (sequelize, DataTypes) {
     var Game = sequelize.define("Game", {
         id: {
@@ -31,11 +30,13 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
             defaultValue: null,
             validate: { min: -180, max: 180 }
-        },
-        timestamps: true
-    });
+        }
+    }); 
 
-    Game.hasMany(db.GameUser);
+    Game.associate = function (models) {
+        Game.belongsToMany(models.User, {through: models.GameUser});
+    }
+
 
 
     return Game;

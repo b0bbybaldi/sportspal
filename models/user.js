@@ -24,7 +24,9 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
 
-    User.hasMany(db.GameUser);
+    User.associate = function (models) { 
+         User.belongsToMany(models.Game, {through: models.GameUser});
+    }
 
     return User;
 };
