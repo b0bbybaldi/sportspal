@@ -12,10 +12,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
         event_time: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.TIME,
             isNumeric: true,
         },
         event_date: {
+            type: DataTypes.DATE,
             isDate: true,
         },
         latitude: {
