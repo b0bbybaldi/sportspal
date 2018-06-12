@@ -18,13 +18,14 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Add local routes to our express app
-new require('./controller/game.js')(app);
-new require('./controller/member.js')(app);
-new require('./controller/user.js')(app);
-new require('./controller/html.js')(app);
+new require("./routes/game.js")(app);
+new require('./routes/member.js')(app);
+new require('./routes/user.js')(app);
+new require('./routes/html.js')(app);
 
+db.sequelize.sync().then(function () {
+  app.listen(PORT, function () {
 
-app.listen(PORT, function() {
- 
-  console.log("Server listening on: http://localhost:" + PORT);
+    console.log("Server listening on: http://localhost:" + PORT);
+  });
 });
