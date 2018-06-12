@@ -18,4 +18,4 @@ function Login () {
 		
 		if (this.root.css('display') === 'none') this.root.css('display', 'block');
 	}
-}
+}     
