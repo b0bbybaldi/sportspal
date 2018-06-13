@@ -7,6 +7,6 @@ CREATE TABLE game (
   name varchar(30) NOT NULL,
   players INTEGER, 
   location VARCHAR (100) NOT NULL,
-  time INTEGER,
+  date INTEGER,
   PRIMARY KEY(id)
 );
