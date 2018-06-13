@@ -16,7 +16,7 @@ function Api (app) {
         db.User.findAll({
             include: [{
                 model: db.GameUser,
-                where: {gameId: id}
+                where: {GameId: id}
             }]
         }).then(users => {
             res.json(users);
@@ -38,7 +38,7 @@ function Api (app) {
         db.Game.findAll({
             include: [{
                 model: db.GameUser,
-                where: {userId: id}
+                where: {UserId: id}
             }]
         }).then( games => {
            console.log(games);
@@ -50,7 +50,7 @@ function Api (app) {
     app.post('/api/games/', function (req, res) {
         const id = Number(req.body.user.id) || 0;
         db.Game.create(req.body.game).then(result => {
-            db.GameUser.create({gameId: result[0].id, userId: id}).then(result => {
+            db.GameUser.create({GameId: result[0].id, UserId: id}).then(result => {
                 res.status(200).end();
             });
         });
@@ -58,9 +58,9 @@ function Api (app) {
 
     // Add a user to a game
     app.post('/api/games/join', function (req, res) {
-        const gameId = req.body.game.id;
-        const userId = req.body.user.id;
-        db.GameUser.create({gameId: gameId, userId: userId}).then(x => {
+        const GameId = req.body.game.id;
+        const UserId = req.body.user.id;
+        db.GameUser.create({GameId: GameId, UserId: UserId}).then(x => {
             res.status(200).end();
         });
     });
