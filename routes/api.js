@@ -1,20 +1,30 @@
+var passwordHash = require('password-hash');
+
 var db = require('../models');
+
 
 function Api (app) {
 
     /*
-        Create a user.
+        Register a new user
             {
                 "name": "James Reinke",
                 "email": "jamesreinke4@gmail.com",
                 "password": "password"
             }
     */
-    app.post('/api/users', function (req, res) {
+    app.post('/api/register', function (req, res) {
+        req.body.password = passwordHash.generate(req.body.password);
         db.Users.create(req.body).then(x => {
             res.status(200);
             res.json(x);
         });
+    });
+
+    app.post('/api/login', function (req, res) {
+        db.Users.findAll({
+            where: {email: req.body.email, password: passwordHash.generate(req.body.password)}
+        }).then(x => res.json(x));
     });
 
     /*
@@ -73,7 +83,7 @@ function Api (app) {
                 },
                 game: {
                     "name": "Soccer",
-                    "event_time": "12-12-20 09:08:33",
+                    "event_date": "12-12-20 09:08:33",
                     "logitude": "50",
                     "latitude": "50"
                 }
