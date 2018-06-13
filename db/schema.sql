@@ -2,7 +2,7 @@ CREATE DATABASE sportsPal;
 USE sportsPal;
 
 -- Created the table "schools" 
-CREATE TABLE sportsPal (
+CREATE TABLE game (
   id int AUTO_INCREMENT,
   name varchar(30) NOT NULL,
   players INTEGER, 
