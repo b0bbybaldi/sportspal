@@ -2,7 +2,14 @@ var db = require('../models');
 
 function Api (app) {
 
-    // Create a user
+    /*
+        Create a user.
+            {
+                "name": "James Reinke",
+                "email": "jamesreinke4@gmail.com",
+                "password": "password"
+            }
+    */
     app.post('/api/users', function (req, res) {
         db.Users.create(req.body).then(x => {
             res.status(200);
@@ -10,7 +17,10 @@ function Api (app) {
         });
     });
 
-    // Grab all games given a user id
+    /*
+        Grab all games given a user ID.
+            GET /api/games/2
+    */
     app.get('/api/games/:id', function (req, res) {
         const games = [];
         const id = Number(req.params.id) || 0;
@@ -31,7 +41,10 @@ function Api (app) {
         });
     });
 
-    // Grab all users given a game id
+    /*
+        Grab all users given a game ID.
+            GET /api/users/12
+    */
     app.get('/api/users/:id', function (req, res) {
         const users = [];
         const id = Number(req.params.id) || 0;
@@ -52,7 +65,20 @@ function Api (app) {
         });
     });
 
-    // Create a game
+    /*
+        Create a game:
+            {
+                user: {
+                    "id": "1"
+                },
+                game: {
+                    "name": "Soccer",
+                    "event_time": "12-12-20 09:08:33",
+                    "logitude": "50",
+                    "latitude": "50"
+                }
+            }
+    */
     app.post('/api/games', function (req, res) {
         const id = Number(req.body.user.id) || 0;
         db.Games.create(req.body.game).then(result => {
@@ -63,7 +89,17 @@ function Api (app) {
         });
     });
 
-    // Add a user to a game
+    /*
+        Add a user to an existing game.
+            {
+                user: {
+                    "id": "1"
+                },
+                game: {
+                    "id": "2"
+                }
+            }
+    */
     app.post('/api/games/join', function (req, res) {
         const gameId = req.body.game.id;
         const userId = req.body.user.id;
