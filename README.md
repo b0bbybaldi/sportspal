@@ -13,6 +13,9 @@ We wanted to create something that could bring people together over the love of 
 * Css
 * Bootstrap framework 
 * Handlebars
+* mySQL
+* Body-parser
+* Express
 
 ## Pre-requisites
 
