@@ -4,64 +4,72 @@ function Api (app) {
 
     // Create a user
     app.post('/api/users', function (req, res) {
-        db.User.create(req.body).then(x => {
+        db.Users.create(req.body).then(x => {
             res.status(200);
             res.json(x);
         });
     });
 
-    // Retrieve all users for a given game id
-    app.get('/api/users/game/:id', function (req, res) {
+    // Grab all games given a user id
+    app.get('/api/games/:id', function (req, res) {
+        const games = [];
         const id = Number(req.params.id) || 0;
-        db.User.findAll({
-            include: [{
-                model: db.GameUser,
-                where: {GameId: id}
-            }]
-        }).then(users => {
-            res.json(users);
+        var total = 0;
+        db.GameUsers.findAll({
+            where: {UserId: id}
+        }).then(results => {
+            total = results.length;
+            results.forEach(x => {
+                db.Games.findAll({
+                    where: {id: x.GameId}
+                }).then(x => {
+                    x.forEach(y => games.push(y));
+                    total -= 1;
+                    if (total <= 0) res.json(games);
+                });
+            }); 
         });
     });
 
-    // Retrieve game via query
-    app.get('/api/games', function (req, res) {
-        db.Game.findAll({
-            where: req.query
-        }).then( function (results){
-            res.json(results);
-        });
-    });
-
-    // Retrieve all games for a given user id
-    app.get('/api/games/user/:id', function (req, res) {
+    // Grab all users given a game id
+    app.get('/api/users/:id', function (req, res) {
+        const users = [];
         const id = Number(req.params.id) || 0;
-        db.Game.findAll({
-            include: [{
-                model: db.GameUser,
-                where: {UserId: id}
-            }]
-        }).then( games => {
-           console.log(games);
-            res.json(games);
+        var total = 0;
+        db.GameUsers.findAll({
+            where: {GameId: id}
+        }).then(results => {
+            total = results.length;
+            results.forEach(x => {
+                db.Users.findAll({
+                    where: {id: x.UserId}
+                }).then(x => {
+                    x.forEach(y => users.push(y));
+                    total -= 1;
+                    if (total <= 0) res.json(users);
+                });
+            }); 
         });
     });
 
     // Create a game
-    app.post('/api/games/', function (req, res) {
+    app.post('/api/games', function (req, res) {
         const id = Number(req.body.user.id) || 0;
-        db.Game.create(req.body.game).then(result => {
-            db.GameUser.create({GameId: result[0].id, UserId: id}).then(result => {
-                res.status(200).end();
+        db.Games.create(req.body.game).then(result => {
+            db.GameUsers.create({GameId: result.id, UserId: id}).then(result => {
+                res.status(200);
+                res.json(result);
             });
         });
     });
 
     // Add a user to a game
     app.post('/api/games/join', function (req, res) {
-        const GameId = req.body.game.id;
-        const UserId = req.body.user.id;
-        db.GameUser.create({GameId: GameId, UserId: UserId}).then(x => {
-            res.status(200).end();
+        const gameId = req.body.game.id;
+        const userId = req.body.user.id;
+        db.GameUsers.create({GameId: gameId, UserId: userId}).then(x => {
+            res.status(200);
+            res.json(x);
         });
     });
 

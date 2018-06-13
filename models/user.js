@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    var User = sequelize.define("User", {
+    var Users = sequelize.define("Users", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -8,7 +8,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         name: {
             type: DataTypes.STRING,
-            is: ["^[a-z]+$", 'i'],
+            is: ["^[a-Z]+$", 'i'],
             allowNull: false
         },
         email: {
@@ -24,9 +24,5 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
 
-    User.associate = function (models) { 
-         User.belongsToMany(models.Game, {through: models.GameUser});
-    }
-
-    return User;
+    return Users;
 };

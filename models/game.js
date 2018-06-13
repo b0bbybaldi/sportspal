@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    var Game = sequelize.define("Game", {
+    var Games = sequelize.define("Games", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -11,13 +11,9 @@ module.exports = function (sequelize, DataTypes) {
             is: ["^[a-z]+$", 'i'],
             allowNull: false
         },
-        event_time: {
-            type: DataTypes.TIME,
-            isNumeric: true,
-        },
         event_date: {
             type: DataTypes.DATE,
-            isDate: true,
+            isNumeric: true,
         },
         latitude: {
             type: DataTypes.INTEGER,
@@ -33,11 +29,7 @@ module.exports = function (sequelize, DataTypes) {
         }
     }); 
 
-    Game.associate = function (models) {
-        Game.belongsToMany(models.User, {through: models.GameUser});
-    }
 
 
-
-    return Game;
+    return Games;
 };
