@@ -16,13 +16,9 @@ function Api (app) {
         db.User.findAll({
             include: [{
                 model: db.GameUser,
-                include: [{
-                    model: db.Game,
-                    where: {id: id}
-                }]
+                where: {gameId: id}
             }]
         }).then(users => {
-            console.log(users);
             res.json(users);
         });
     });
@@ -42,10 +38,7 @@ function Api (app) {
         db.Game.findAll({
             include: [{
                 model: db.GameUser,
-                include: [{
-                    model: db.User,
-                    where: {id: id}
-                }]
+                where: {userId: id}
             }]
         }).then( games => {
            console.log(games);
