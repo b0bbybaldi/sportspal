@@ -1,20 +1,39 @@
 var db = require('../models');
 
+
+function hash () {
+  var hash = 0, i, chr;
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+
 function Api (app) {
 
     /*
-        Create a user.
+        Register a new user
             {
                 "name": "James Reinke",
                 "email": "jamesreinke4@gmail.com",
                 "password": "password"
             }
     */
-    app.post('/api/users', function (req, res) {
+    app.post('/api/register', function (req, res) {
+        req.body.password = hash(req.body.password);
         db.Users.create(req.body).then(x => {
             res.status(200);
             res.json(x);
         });
+    });
+
+    app.post('/api/login', function (req, res) {
+        db.Users.findAll({
+            where: {email: req.body.email, password: hash(req.body.password)}
+        }).then(x => res.json(x));
     });
 
     /*
