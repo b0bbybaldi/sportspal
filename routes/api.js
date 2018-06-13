@@ -73,7 +73,7 @@ function Api (app) {
                 },
                 game: {
                     "name": "Soccer",
-                    "event_time": "12-12-20 09:08:33",
+                    "event_date": "12-12-20 09:08:33",
                     "logitude": "50",
                     "latitude": "50"
                 }
