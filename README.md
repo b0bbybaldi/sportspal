@@ -31,8 +31,3 @@ We wanted to create something that could bring people together over the love of 
 * [James](https://github.com/ellisjames)
 * [Junior](https://github.com/jsalamanca23)
 * [Connor](https://github.com/Connor218)
-
-#### License
-MIT License
-
-
