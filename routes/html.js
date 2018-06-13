@@ -1,6 +1,6 @@
 function Html (app) {
 	app.get("/", function (req, res) {
-		res.render('index', {});
+		res.render('/html/home', {});
 	});
 }
 

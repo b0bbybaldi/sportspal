@@ -30,17 +30,13 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
             defaultValue: null,
             validate: { min: -180, max: 180 }
-        },
-        timestamps: true
-    });
-    Game.associate = (models) => {
-        Game.hasMany(models.User, {//retrieves one game with all its members
-           foreignKey: {
-               allowNull: false
-            }
-        });
-    
-    };
+        }
+    }); 
+
+    Game.associate = function (models) {
+        Game.belongsToMany(models.User, {through: models.GameUser});
+    }
+
 
 
     return Game;
