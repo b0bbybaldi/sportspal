@@ -20,7 +20,13 @@ function Api (app) {
             res.json(x);
         });
     });
-
+    /*
+        Login an old user, returning a user object
+            {
+                "email": "example@example.com",
+                "password": "password"
+            }
+    */
     app.post('/api/login', function (req, res) {
         db.Users.findAll({
             where: {email: req.body.email, password: passwordHash.generate(req.body.password)}
