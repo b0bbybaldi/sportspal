@@ -1,16 +1,7 @@
+var passwordHash = require('password-hash');
+
 var db = require('../models');
 
-
-function hash (str) {
-  var hash = 0, i, chr;
-  if (str.length === 0) return hash;
-  for (i = 0; i < str.length; i++) {
-    chr   = str.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
 
 function Api (app) {
 
@@ -23,7 +14,7 @@ function Api (app) {
             }
     */
     app.post('/api/register', function (req, res) {
-        req.body.password = hash(req.body.password);
+        req.body.password = passwordHash.generate(req.body.password);
         db.Users.create(req.body).then(x => {
             res.status(200);
             res.json(x);
@@ -32,7 +23,7 @@ function Api (app) {
 
     app.post('/api/login', function (req, res) {
         db.Users.findAll({
-            where: {email: req.body.email, password: hash(req.body.password)}
+            where: {email: req.body.email, password: passwordHash.generate(req.body.password)}
         }).then(x => res.json(x));
     });
 
