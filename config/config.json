@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "password",
-    "database": "sportspal",
-    "host": "127.0.0.1",
+    "username": "xgilwfkahjrjblwj",
+    "password": "nei7x72mvwb7f8f3",
+    "database": "ycuss9ducwo0w6af",
+    "host": "g3v9lgqa8h5nq05o.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {

@@ -28,7 +28,7 @@ module.exports = function (sequelize, DataTypes) {
             validate: { min: -180, max: 180 }
         },
         hash: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: true
         }
     }); 
