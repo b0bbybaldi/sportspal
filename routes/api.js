@@ -106,7 +106,7 @@ function Api (app) {
         Retrieve all games
     */
     app.get('/api/games', function (req, res) {
-        db.Games.getAll({}).then(x => res.json(x));
+        db.Games.findAll({}).then(x => res.json(x));
     });
     /*
         Add a user to an existing game.

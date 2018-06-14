@@ -34,8 +34,6 @@
                         aria-controls="profile">My Games</a>
                     <a class="list-group-item list-group-item-action" id="existing-games" data-toggle="list" href="#list-messages" role="tab"
                         aria-controls="messages">Find Games</a>
-                    <a class="list-group-item list-group-item-action" id="create-game" data-toggle="list" href="#list-settings" role="tab"
-                        aria-controls="settings">Create Game</a>
                 </div>
             </div>
 
@@ -102,7 +100,7 @@
         </div>
 
         <div class="container">
-            <div id="create-game-form" class="row col-sm-8 offset-sm-2 animated fadeIn" style="display:none;">
+            <div id="create-game-form" class="row col-sm-8 offset-sm-2 animated fadeIn">
                 <h2>Create Game</h2>
                 <form>
                     <div class="form-group">
@@ -169,25 +167,11 @@
                 userGames(userId, function (games) {
                     updateTable(games);
                 });
-                $("#game-table").css("display", "block");
-                $("#create-game-form").css("display", "none");
-                $("#card-stats").css("display", "block");
-                $("#image-reel").css("display", "block");
             });
             $("#existing-games").click( function () {
                 games(function (games) {
                     updateTable(games);
                 });
-                $("#game-table").css("display", "block");
-                $("#create-game-form").css("display", "none");
-                $("#card-stats").css("display", "block");
-                $("#image-reel").css("display", "block");
-            });
-            $("#create-game").click( function () {
-                $("#game-table").css("display", "block");
-                $("#create-game-form").css("display", "block");
-                $("#card-stats").css("display", "none");
-                $("#image-reel").css("display", "none");
             });
         });
 
