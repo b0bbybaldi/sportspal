@@ -4,9 +4,8 @@ var db = require('../models');
 
 
 function Api (app) {
-
     /*
-        Register a new user
+        Register a new user, returning the user row (ID and hash included).
             {
                 "name": "James Reinke",
                 "email": "jamesreinke4@gmail.com",
@@ -21,18 +20,18 @@ function Api (app) {
         });
     });
     /*
-        Login an old user, returning a user object
+        Login, returning the user row (ID and hash included).
             {
                 "email": "example@example.com",
                 "password": "password"
             }
     */
     app.post('/api/login', function (req, res) {
+        req.body.password = passwordHash.generate(req.body.password);
         db.Users.findAll({
-            where: {email: req.body.email, password: passwordHash.generate(req.body.password)}
+            where: req.body
         }).then(x => res.json(x));
     });
-
     /*
         Grab all games given a user ID.
             GET /api/games/2
@@ -56,7 +55,6 @@ function Api (app) {
             }); 
         });
     });
-
     /*
         Grab all users given a game ID.
             GET /api/users/12
@@ -80,7 +78,6 @@ function Api (app) {
             }); 
         });
     });
-
     /*
         Create a game:
             {
@@ -91,7 +88,8 @@ function Api (app) {
                     "name": "Soccer",
                     "event_date": "12-12-20 09:08:33",
                     "logitude": "50",
-                    "latitude": "50"
+                    "latitude": "50",
+                    hash: "123854jfqoq3894j0q9wjgo9-290jsfig"
                 }
             }
     */
@@ -110,7 +108,6 @@ function Api (app) {
     app.get('/api/games', function (req, res) {
         db.Games.getAll({}).then(x => res.json(x));
     });
-
     /*
         Add a user to an existing game.
             {
@@ -130,7 +127,36 @@ function Api (app) {
             res.json(x);
         });
     });
-
+     /*
+        Remove a user from an existing game.
+            {
+                user: {
+                    "id": "1"
+                },
+                game: {
+                    "id": "2"
+                }
+            }
+    */
+    app.post('/api/games/leave', function (req, res) {
+        const gameId = req.body.game.id;
+        const userId = req.body.user.id;
+        db.GameUsers.destroy({where: {GameId: gameId, UserId: userId}}).then(x => res.json(x));
+    });
+    /*
+        Delete an existing an existing game.
+            {
+                hash: "13948701asgqehr2qa9hafd369879adfh143",
+                gameId: "12"
+            }
+    */
+    app.post('/api/games/delete', function (req, res) {
+        const gameId = req.body.game.id;
+        const hash = req.body.game.hash;
+        db.Games.destroy({where: {id: gameId, hash: hash}}).then(x => {
+            if (x) db.GameUsers.destroy({where: {GameId: gameId}});
+        });
+    });
 }
 
 module.exports = Api;
