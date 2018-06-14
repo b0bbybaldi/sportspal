@@ -11,12 +11,22 @@ text-align: center;
 font-family: "Monoton", cursive;
 
 }
-
 .card {
-    margin: 20px;
-    max-height: 450px;
-    background: rgba(0, 0, 0, .7)
-}
-.card-text {
+    min-height: 300px;
     color:black;
+}
+.d-block{
+    max-height: 300px;
+}
+.logo{
+    width: 80px;
+}
+.footer{
+    color: gray;
+    text-align: center;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    min-height: 5%;
 }
