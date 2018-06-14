@@ -9,14 +9,8 @@ module.exports = function (sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING,
             is: ["^[a-Z]+$", 'i'],
-            allowNull: false
+            allowNull: false 
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            isEmail: true
-        },
-
         password: {
             type: DataTypes.STRING,
             allowNull: false

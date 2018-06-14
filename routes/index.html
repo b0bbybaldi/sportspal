@@ -23,6 +23,7 @@
 </head>
 
 <body>
+<div id="main-content">
     <div class="container">
         <h1> Sports Pal</h1>
         <p> Pick up Game or Pick up Stats. </p>
@@ -37,7 +38,6 @@
                         aria-controls="settings">Create Game</a>
                 </div>
             </div>
-
 
             <div class="col-md-8">
                 <table id="game-table" class="table animated fadeIn">
@@ -127,27 +127,6 @@
             </div>
       </div>
 
-      <div id="login-form">
-        <div class="uk-modal-dialog">
-            <button class="uk-modal-close-default" type="button" uk-close></button>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
@@ -165,6 +144,8 @@
     <script src="/javascript/uikit.min.js"></script>
     <script src="/javascript/firebase.js"></script>
     <script src="/javascript/chatroom.js"></script>
+    <script src="/javascript/login.js"></script>
+    
 
     <script>
 
@@ -177,6 +158,9 @@
             // Initialize firebase and our chatroom
             var firebase = new Firebase();
             var chatroom = new Chatroom(firebase, "default username");
+            var login = new Login();
+
+            $("#main-content").css("display", "none");
 
             // Add a listener
             firebase.setChatroom(chatroom);
@@ -185,6 +169,7 @@
                 userGames(userId, function (games) {
                     updateTable(games);
                 });
+                $("#game-table").css("display", "block");
                 $("#create-game-form").css("display", "none");
                 $("#card-stats").css("display", "block");
                 $("#image-reel").css("display", "block");
@@ -193,11 +178,13 @@
                 games(function (games) {
                     updateTable(games);
                 });
+                $("#game-table").css("display", "block");
                 $("#create-game-form").css("display", "none");
                 $("#card-stats").css("display", "block");
                 $("#image-reel").css("display", "block");
             });
             $("#create-game").click( function () {
+                $("#game-table").css("display", "block");
                 $("#create-game-form").css("display", "block");
                 $("#card-stats").css("display", "none");
                 $("#image-reel").css("display", "none");
@@ -256,7 +243,7 @@
             });
         }
     </script>
-
+</div>
 </body>
 
 </html>

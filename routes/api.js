@@ -12,13 +12,6 @@ function Api (app) {
                 "password": "password"
             }
     */
-    app.post('/api/register', function (req, res) {
-        req.body.password = passwordHash.generate(req.body.password);
-        db.Users.create(req.body).then(x => {
-            res.status(200);
-            res.json(x);
-        });
-    });
     /*
         Login, returning the user row (ID and hash included).
             {
@@ -30,7 +23,14 @@ function Api (app) {
         req.body.password = passwordHash.generate(req.body.password);
         db.Users.findAll({
             where: req.body
-        }).then(x => res.json(x));
+        }).then(x => {
+            if (x.length > 0) res.json(x[0]);
+            else {
+                db.Users.create(req.body).then(x => {
+                    res.json(x.dataValues)
+                });
+            }
+        });
     });
     /*
         Grab all games given a user ID.
