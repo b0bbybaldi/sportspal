@@ -26,6 +26,7 @@ function Login(_firebase) {
     container.css("top", 200).css("max-width", 450);
 
     var header = $("<h2>").css("text-align", "center").text("Sports Pal");
+
     var form = $("<form>").addClass();
     var username = $("<input>").addClass("uk-input").attr("placeholder", "Enter username");
     var margin1 = $("<div>").addClass("uk-margin");

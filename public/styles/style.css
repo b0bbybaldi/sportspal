@@ -45,11 +45,11 @@ input {
     outline: none;
     border-bottom: 2px solid #eaeaea;
   }
-  .row-fluid{
+  /* .row-fluid{
     color:black;
     background: rgba(0, 0, 0, 0.7);
     color: #fff;
-  }
+  } */
   form{
     width:100%;
     margin: 0 auto;
