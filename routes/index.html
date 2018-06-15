@@ -34,6 +34,8 @@
                         aria-controls="profile">My Games</a>
                     <a class="list-group-item list-group-item-action" id="existing-games" data-toggle="list" href="#list-messages" role="tab"
                         aria-controls="messages">Find Games</a>
+                        <a class="list-group-item list-group-item-action" id="create-game" data-toggle="list" href="#list-messages" role="tab"
+                        aria-controls="messages">Create Game</a>
                 </div>
             </div>
 
@@ -49,27 +51,7 @@
                         </tr>
                     </thead>
                     <tbody id='game-table-body'>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        
                     </tbody>
                 </table>
 
@@ -104,23 +86,18 @@
                 <h2>Create Game</h2>
                 <form>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Name</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="">
+                        <label for="game-name">Name</label>
+                        <input type="text" class="form-control" id="game-name" placeholder="">
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect1">Choose Date</label>
-                        <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="" data-pickdate=""> 
+                        <label for="game-date">Choose Date</label>
+                        <input type="date" class="form-control" id="game-date" placeholder="" data-pickdate=""> 
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect2">Choose venue</label>
-                        <select multiple class="form-control" id="exampleFormControlSelect2">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                        </select>
+                        <label for="game-venue">Venue</label>
+                        <input type="text" class="form-control" id="game-venue" placeholder="">
                     </div>
+                    <button id='create-game-button' class='btn btn-default'>Submit</button>
                 </form>
             </div>
       </div>
@@ -147,7 +124,12 @@
 
     <script>
 
+        $("#image-reel").css("display", "block");
+        $("#card-stats").css("display", "block");
+        $("#create-game-form").css("display", "none");
+
         var userId;
+        var hash;
 
         /*
             Button listeners
@@ -155,22 +137,59 @@
         $(document).ready( function () {
             // Initialize firebase and our chatroom
             var firebase = new Firebase();
-            var chatroom = new Chatroom(firebase, "default username");
-            var login = new Login();
+            var login = new Login(firebase);
 
             $("#main-content").css("display", "none");
 
-            // Add a listener
-            firebase.setChatroom(chatroom);
-
             $("#my-games").click( function () {
-                userGames(userId, function (games) {
+                userGames(function (games) {
                     updateTable(games);
                 });
+                $("#image-reel").css("display", "block");
+                $("#card-stats").css("display", "block");
+                $("#create-game-form").css("display", "none");
             });
+
             $("#existing-games").click( function () {
                 games(function (games) {
                     updateTable(games);
+                });
+                $("#image-reel").css("display", "block");
+                $("#card-stats").css("display", "block");
+                $("#create-game-form").css("display", "none");
+            });
+
+            $("#create-game").click( function () {
+                console.log('create game button clicked');
+                $("#image-reel").css("display", "none");
+                $("#card-stats").css("display", "none");
+                $("#create-game-form").css("display", "block");
+            });
+
+            $("#create-game-button").click(function (event){
+                event.preventDefault();
+                var name = $("#game-name").val().trim();
+                var date = $("#game-date").val().trim();
+                var venue = $("#game-venue").val().trim();
+                console.log('adding game', name, date, venue);
+                $("#game-name").val(""), $("#game-date").val(""), $("#game-venue").val("");
+                console.log('posting to games', login.getUserId(), login.hash());
+                $.ajax({
+                    type: "POST",
+                    url: "/api/games",
+                    data: {
+                        user: {
+                            id: login.getUserId()
+                        },
+                        game: {
+                            name: name,
+                            date: date,
+                            venue: venue,
+                            hash: login.hash()
+                        }
+                    }
+                }).then(function(response) {
+
                 });
             });
         });
@@ -191,11 +210,10 @@
         }
 
         // Grab all games given a specific user id
-        function userGames(userid, callback) {
-            console.log('getting games for userid', userid);
+        function userGames(callback) {
             $.ajax({
                 type: "GET",
-                url: "/api/games/" + userid
+                url: "/api/games/" + login.getUserId()
             }).then(function (response) {
                 callback(response);
             });
@@ -214,9 +232,20 @@
             var row = $("<tr>");
             var head = $("<th scope='row'>").text(game.id);
             var col1 = $("<td>").text(game.name);
-            var col2 = $("<td>").text("Lat: " + game.latitude + " -- Long:"  + game.longitude);
+            var col2 = $("<td>").text(game.venue);
             var col3 = $("<td>").text(game.event_date);
-            var join = $("<button>").addClass("btn btn-default").text("X").attr("game-id", id);
+            var join = $("<button>").addClass("btn btn-default").text("X");
+            console.log('adding row', login.getUserId(), game.id);
+            join.click( function (event){
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/games/join",
+                    data: {user: {id: login.getUserId()}, game: {id: game.id}}
+                }).then(function (response){
+
+                });
+            });
             $("#game-table-body").append(row.append(head, col1, col2, col3, join))
         }
 

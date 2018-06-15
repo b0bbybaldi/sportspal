@@ -1,7 +1,21 @@
-function Login() {
+function Login(_firebase) {
 
-    var userId = 0;
-    this.userId = userId;
+    var userId;
+
+    var hash;
+
+    var firebase = _firebase;
+    this.firebase = function () {
+        return firebase;
+    }
+
+    this.getUserId = function () {
+        return userId;
+    }
+
+    this.hash = function () {
+        return hash;
+    }
 
     var visible = true;
 
@@ -41,14 +55,18 @@ function Login() {
             warning.text("Password must be at least 5 characters long.");
             return;
         }
-        console.log('submit fired');
         $.ajax({
             url: "/api/login",
             data: {name: userInput, password: passwordInput},
             type: "POST"
         }).then( function (response) {
             userId = response.id;
-            console.log('toggling display');
+            console.log('login userId', userId);
+            var name = response.name;
+            hash = response.password;
+            var chatroom = new Chatroom(firebase, name);
+             // Add a listener
+            firebase.setChatroom(chatroom);
             $("#login").css("display", "none");
             $("#main-content").css("display", "block");
         });

@@ -1,6 +1,17 @@
-var passwordHash = require('password-hash');
-
 var db = require('../models');
+
+function hash (str) {
+    var hash = 0;
+    if (str.length == 0) {
+        return hash;
+    }
+    for (var i = 0; i < str.length; i++) {
+        var char = str.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
 
 
 function Api (app) {
@@ -18,9 +29,9 @@ function Api (app) {
                 "email": "example@example.com",
                 "password": "password"
             }
-    */
+    */ 
     app.post('/api/login', function (req, res) {
-        req.body.password = passwordHash.generate(req.body.password);
+        req.body.password = hash(req.body.password);
         db.Users.findAll({
             where: req.body
         }).then(x => {
@@ -86,13 +97,12 @@ function Api (app) {
                 },
                 game: {
                     "name": "Soccer",
-                    "event_date": "12-12-20 09:08:33",
-                    "logitude": "50",
-                    "latitude": "50",
-                    hash: "123854jfqoq3894j0q9wjgo9-290jsfig"
+                    "event_date": "12-12-20 09:08:33"
+                    hash: "123854jfqoq3894j0q9wjgo9-290jsfig",
+                    venue: "Moore's Park, San Jose, CA"
                 }
             }
-    */
+    */ 
     app.post('/api/games', function (req, res) {
         const id = Number(req.body.user.id) || 0;
         db.Games.create(req.body.game).then(result => {

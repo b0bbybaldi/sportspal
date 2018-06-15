@@ -12,20 +12,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
         event_date: {
-            type: DataTypes.DATE,
-            isNumeric: true,
+            type: DataTypes.STRING
         },
-        latitude: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            defaultValue: null,
-            validate: { min: -90, max: 90 }
-        },
-        longitude: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            defaultValue: null,
-            validate: { min: -180, max: 180 }
+        venue: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
         hash: {
             type: DataTypes.STRING,
